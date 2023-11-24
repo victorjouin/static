@@ -1,4 +1,11 @@
 services:
-  - name: monservice
-    type: web
+  # Un service web Docker
+  - type: web
+    name: monservice
     runtime: docker
+    image: monimage:latest
+    ports:
+      - 8080:80
+    envVars:
+      - key: VARIABLE1
+        value: valeur1

@@ -1,5 +1,7 @@
 services:
-  # Un service web
+  # Un service web gratuit
   - type: web
     name: monservice
     runtime: node
+    freeTier: true
+    startCommand: npm start

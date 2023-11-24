@@ -1,26 +1,19 @@
-# A Ruby web service
-  - type: web
-    name: CACA
-    runtime: ruby
-    scaling:
-      minInstances: 1
-      maxInstances: 3
-      targetCPUPercent: 80 # Example target CPU percentage
-    buildCommand: bundle install
-    startCommand: bundle exec ruby main.rb
-    preDeployCommand: bundle exec ruby migrate.rb
-    domains:
-      - test0.render.com
-      - test1.render.com
+services:
+  - name: webdis
+    type: web
+    runtime: docker
+    rootDir: webdis
+    dockerCommand: ./webdis.sh
+    healthCheckPath: /
     envVars:
-      - key: STRIPE_API_KEY
-        value: Z2V0IG91dHRhIGhlcmUhCg
-      - key: DB_URL
-        fromDatabase:
-          name: elephant
-          property: connectionString
-      - key: MINIO_ROOT_PASSWORD
+      - key: REDIS_HOST
         fromService:
-          type: pserv
-          name: minio
-          envVarKey: MINIO_ROOT_PASSWORD
+          type: redis
+          name: lightning
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: lightning
+          property: port
+      - fromGroup: conc-settings

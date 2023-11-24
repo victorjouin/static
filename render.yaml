@@ -3,5 +3,5 @@ services:
   - type: web
     name: monservice
     runtime: node
-    freeTier: true
+    plan: free
     startCommand: npm start

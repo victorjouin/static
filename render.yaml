@@ -2,6 +2,3 @@ services:
   - name: monservice
     type: web
     runtime: docker
-    image: monimage:latest
-    ports:
-      - 8080:80

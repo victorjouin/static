@@ -1,42 +1,11 @@
-services:
-  # Un service web Docker
+# A Ruby web service
   - type: web
-    name: webdis
-    runtime: docker
-    rootDir: webdis
-    dockerCommand: ./webdis.sh # facultatif (par défaut, la commande Dockerfile est utilisée)
-    healthCheckPath: /
-    envVars:
-      - key: REDIS_HOST
-        fromService:
-          type: redis
-          name: lightning
-          property: host # propriétés disponibles répertoriées ci-dessous
-      - key: REDIS_PORT
-        fromService:
-          type: redis
-          name: lightning
-          property: port
-      - fromGroup: conc-settings
-  # Une instance privée de Minio
-  - type: pserv
-    name: minio
-    runtime: docker
-    envVars:
-      - key: MINIO_ROOT_PASSWORD
-        generateValue: true # générera un secret encodé en base64 de 256 bits
-      - key: MINIO_ROOT_USER
-        sync: false # espace réservé pour une valeur à ajouter dans le tableau de bord
-      - key: PORT
-        value: 10000
-  # Un service web Ruby
-  - type: web
-    name: sinatra
+    name: CACA
     runtime: ruby
-    repo: https://github.com/renderinc/sinatra-example.git
     scaling:
       minInstances: 1
       maxInstances: 3
+      targetCPUPercent: 80 # Example target CPU percentage
     buildCommand: bundle install
     startCommand: bundle exec ruby main.rb
     preDeployCommand: bundle exec ruby migrate.rb
@@ -55,60 +24,3 @@ services:
           type: pserv
           name: minio
           envVarKey: MINIO_ROOT_PASSWORD
-  # Un travail cron Python qui s'exécute toutes les heures
-  - type: cron
-    name: date
-    runtime: python
-    schedule: "0 * * * *"
-    buildCommand: "true" # assurez-vous que c'est une chaîne
-    startCommand: date
-    repo: https://github.com/render-examples/docker.git # facultatif
-  # Un worker en arrière-plan qui consomme une file d'attente
-  - type: worker
-    name: queue
-    runtime: docker
-  # Un site statique
-  - type: web
-    name: my blog
-    runtime: static
-    buildCommand: yarn build
-    staticPublishPath: ./build
-    buildFilter:
-      paths:
-      - src/**/*.js
-      ignoredPaths:
-      - src/**/*.test.js
-    headers:
-      - path: /*
-        name: X-Frame-Options
-        value: sameorigin
-    routes:
-      - type: redirect
-        source: /old
-        destination: /new
-      - type: rewrite
-        source: /a/*
-        destination: /a
-  # Une instance Redis
-  - type: redis
-    name: lightning
-    ipAllowList: # requis
-      - source: 0.0.0.0/0
-        description: partout
-
-databases:
-  - name: elephant
-
-envVarGroups:
-  - name: conc-settings
-    envVars:
-      - key: CONCURRENCY
-        value: 2
-      - key: SECRET
-        generateValue: true
-      - key: USER_PROVIDED_SECRET
-        sync: false
-  - name: stripe
-    envVars:
-      - key: STRIPE_API_URL
-        value: https://api.stripe.com/v2

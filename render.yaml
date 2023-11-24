@@ -1,0 +1,41 @@
+version: 1
+
+blueprint:
+  name: MonBlueprint
+  version: 1.0.0
+  description: Couldy
+
+services:
+  - name: CACA
+    type: service
+    image: monimage1:latest
+    ports:
+      - 8080:80
+    environment:
+      - ENV_VARIABLE1=value1
+      - ENV_VARIABLE2=value2
+
+  - name: Service2
+    type: service
+    image: monimage2:latest
+    ports:
+      - 8081:80
+    environment:
+      - ENV_VARIABLE3=value3
+
+routes:
+  - path: /
+    service: Service1
+
+  - path: /api
+    service: Service2
+    headers:
+      X-Auth-Token: mytoken
+
+databases:
+  - name: MaDB
+    type: mysql
+    version: 8.0
+    username: myuser
+    password: mypassword
+

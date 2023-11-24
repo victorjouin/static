@@ -102,12 +102,8 @@ services:
 
 databases:
   - name: elephant
-        description: office
-      - source: 198.51.100.1
         description: home
-
-  - name: private database
-    databaseName: private
+        engine: postgres
 
 
 envVarGroups:

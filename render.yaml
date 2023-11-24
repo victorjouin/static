@@ -1,5 +1,6 @@
 services:
   # Un service web
   - type: web
+    name: monservice
     runtime: node
     startCommand: npm start

@@ -1,3 +1,5 @@
 services:
+  # Un service web
+  - type: web
     runtime: node
     startCommand: npm start

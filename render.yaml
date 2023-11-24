@@ -2,6 +2,3 @@ services:
   # Un service web Docker
   - type: web
     name: monservice
-    envVars:
-      - key: VARIABLE1
-        value: valeur1

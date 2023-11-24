@@ -29,10 +29,6 @@ services:
       sync: false # placeholder for a value to be added in the dashboard
     - key: PORT
       value: 10000
-    disk:
-      name: data
-      mountPath: /data
-      sizeGB: 0.20 # optional
   # A Ruby web service
   - type: web
     name: sinatra

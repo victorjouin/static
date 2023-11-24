@@ -1,8 +1,7 @@
 services:
-  # Un service web Docker
-  - type: web
-    name: webdis
+  - name: monservice
+    type: web
     runtime: docker
-    rootDir: webdis
-    dockerCommand: ./webdis.sh # facultatif (par défaut, la commande Dockerfile est utilisée)
-
+    image: monimage:latest
+    ports:
+      - 8080:80

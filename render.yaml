@@ -18,7 +18,4 @@ services:
           name: lightning
           property: port
       - fromGroup: conc-settings
-    scaling:
-      targetCPUPercent: 50 # Réglez la cible de pourcentage de CPU selon vos besoins
-      minInstances: 1
-      maxInstances: 1
+

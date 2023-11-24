@@ -5,17 +5,4 @@ services:
     runtime: docker
     rootDir: webdis
     dockerCommand: ./webdis.sh # facultatif (par défaut, la commande Dockerfile est utilisée)
-    healthCheckPath: /
-    envVars:
-      - key: REDIS_HOST
-        fromService:
-          type: redis
-          name: lightning
-          property: host # propriétés disponibles répertoriées ci-dessous
-      - key: REDIS_PORT
-        fromService:
-          type: redis
-          name: lightning
-          property: port
-      - fromGroup: conc-settings
 
